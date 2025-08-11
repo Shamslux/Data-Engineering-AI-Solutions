@@ -1,5 +1,7 @@
-# Data Engineering
+# Data Engineering & AI Solutions
 Repository containing projects and summaries of my studies in the field of Data Engineering.
+
+**Update**: Hello, everyone following this main project of mine! I am bringing a title name update and soon I will start to publish my AI solutions projects here. Thank you all who are starring my repository and forking it. I hope my projects may continue inspiring many others to keeping developing and studying in our Data field. **Best regards, Shamslux**!
 
 # Table of Contents
 
