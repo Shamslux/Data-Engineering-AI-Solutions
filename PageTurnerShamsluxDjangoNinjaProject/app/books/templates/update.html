@@ -131,132 +131,166 @@
     <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
   </footer>
 
-  <script>
-    // Note: the collection ends with '/', but individual item URLs DO NOT: we'll use base without trailing slash.
-    const API_URL = '/api/books'; // <-- no trailing slash
-    const $ = (sel) => document.querySelector(sel);
+<script>
+  // Note: the collection ends with '/', but individual item URLs DO NOT: we'll use base without trailing slash.
+  const API_URL = '/api/books'; // <-- no trailing slash
+  const $ = (sel) => document.querySelector(sel);
 
-    function setAlert(type, msg) {
-      const box = $('#alertBox');
-      if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
-      const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
-      const styles = {
-        info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
-        warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
-        error: base + 'border-red-200 bg-red-50 text-red-900',
-        ok:    base + 'border-green-200 bg-green-50 text-green-900',
-      };
-      const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
+  // CSRF helper (only needed if your Ninja API is not csrf=False)
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
 
-      box.className = styles[type] || styles.info;
-      box.innerHTML = `
-        <div class="flex items-center gap-2">
-          <span>${icons[type] || icons.info}</span>
-          <span>${msg}</span>
-        </div>
-        <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
-      `;
-      setTimeout(() => setAlert(), 5000);
+  function setAlert(type, msg) {
+    const box = $('#alertBox');
+    if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
+    const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
+    const styles = {
+      info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
+      warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
+      error: base + 'border-red-200 bg-red-50 text-red-900',
+      ok:    base + 'border-green-200 bg-green-50 text-green-900',
+    };
+    const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
+
+    box.className = styles[type] || styles.info;
+    box.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span>${icons[type] || icons.info}</span>
+        <span>${msg}</span>
+      </div>
+      <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
+    `;
+    window.clearTimeout(box.__timer);
+    box.__timer = window.setTimeout(() => setAlert(), 7000);
+  }
+
+  function toTitleCase(str) {
+    return String(str || '').replace(/\w\S*/g, (txt) =>
+      txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase() // slice, not substr
+    );
+  }
+
+  function buildItemUrl(id) {
+    // Ensure /api/books/{id} (no trailing slash)
+    return `${API_URL}/${encodeURIComponent(String(id).trim())}`;
+  }
+
+  // Normalizers for update payload
+  function valOrNull(s) {
+    const t = (s ?? '').trim();
+    return t === '' ? null : t;
+  }
+  function intOrNull(v) {
+    const n = Number.parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
+  }
+  function decimalOrNull(v) {
+    const t = typeof v === 'string' ? v.trim() : '';
+    if (!t) return null;
+    if (t.includes(',')) return NaN;
+    const n = Number(t);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  // Load book data
+  $('#loadBtn').addEventListener('click', async () => {
+    const idRaw = $('#searchId').value;
+    const id = parseInt(idRaw, 10);
+
+    // ✅ Accept zero as valid ID (leading zeros "0000" -> 0)
+    if (!Number.isInteger(id) || id < 0) {
+      setAlert('warn', 'Please enter a valid numeric ID to search.');
+      return;
     }
 
-    function toTitleCase(str) {
-      return str.replace(/\w\S*/g, (txt) =>
-        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-      );
+    const url = buildItemUrl(id);
+    try {
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error(`Book ID ${id} not found. [URL: ${url}] ${text ? ' • Details: ' + text : ''}`);
+      }
+      const b = await res.json();
+
+      $('#book_id').value = b.book_id;
+      $('#title').value = b.title ?? '';
+      $('#authors_raw').value = b.authors_raw ?? '';
+      $('#average_rating').value = b.average_rating ?? '';
+      $('#isbn').value = b.isbn ?? '';
+      $('#isbn13').value = b.isbn13 ?? '';
+      $('#language_code').value = b.language_code ?? '';
+      $('#num_pages').value = b.num_pages ?? '';
+      $('#text_reviews_count').value = b.text_reviews_count ?? '';
+      $('#ratings_count').value = b.ratings_count ?? '';
+      $('#publication_date').value = b.publication_date ?? '';
+      $('#publisher').value = b.publisher ?? '';
+
+      $('#bookForm').classList.remove('hidden');
+      setAlert('info', `Book ID ${id} loaded. Edit the fields and click Update.`);
+    } catch (err) {
+      setAlert('error', err.message);
+    }
+  });
+
+  // Update book
+  $('#bookForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setAlert();
+
+    const id = parseInt($('#book_id').value, 10);
+    const url = buildItemUrl(id);
+
+    const data = {
+      book_id: id, // ignored by backend, but kept for compatibility
+      title: toTitleCase($('#title').value.trim()),
+      authors_raw: toTitleCase($('#authors_raw').value.trim()),
+      average_rating: decimalOrNull($('#average_rating').value), // send number
+      isbn: valOrNull($('#isbn').value),
+      isbn13: valOrNull($('#isbn13').value),
+      language_code: valOrNull($('#language_code').value),
+      num_pages: intOrNull($('#num_pages').value),
+      text_reviews_count: intOrNull($('#text_reviews_count').value),
+      ratings_count: intOrNull($('#ratings_count').value),
+      publication_date: valOrNull($('#publication_date').value),
+      publisher: valOrNull($('#publisher').value),
+    };
+
+    // Required fields validation
+    if (!data.title || !data.authors_raw || data.average_rating == null) {
+      setAlert('warn', 'Please fill in the required fields: title, authors, and average rating.');
+      return;
+    }
+    if (Number.isNaN(data.average_rating)) {
+      setAlert('warn', 'Use a period (.) as the decimal separator in the average rating and enter a valid number.');
+      return;
     }
 
-    function buildItemUrl(id) {
-      // Ensure /api/books/{id} (no trailing slash)
-      return `${API_URL}/${encodeURIComponent(String(id).trim())}`;
+    // Headers (include CSRF token if cookie exists)
+    const headers = { 'Content-Type': 'application/json' };
+    const csrftoken = getCookie('csrftoken');
+    if (csrftoken) headers['X-CSRFToken'] = csrftoken;
+
+    try {
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error((text && text.length < 400 ? text : `HTTP Error ${res.status}`) + ` [URL: ${url}]`);
+      }
+      const updated = await res.json();
+      setAlert('ok', `Book successfully updated: <strong>${updated.title}</strong> (ID ${updated.book_id})`);
+    } catch (err) {
+      setAlert('error', `Failed to update: ${err.message}`);
     }
+  });
+</script>
 
-    // Load book data
-    $('#loadBtn').addEventListener('click', async () => {
-      const idRaw = $('#searchId').value;
-      const id = parseInt(idRaw, 10);
-
-      if (!Number.isInteger(id) || id <= 0) {
-        setAlert('warn', 'Please enter a valid numeric ID to search.');
-        return;
-      }
-
-      const url = buildItemUrl(id);
-      try {
-        const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-        if (!res.ok) {
-          const text = await res.text().catch(() => '');
-          throw new Error(`Book ID ${id} not found. [URL: ${url}] ${text ? ' • Details: ' + text : ''}`);
-        }
-        const b = await res.json();
-
-        $('#book_id').value = b.book_id;
-        $('#title').value = b.title;
-        $('#authors_raw').value = b.authors_raw;
-        $('#average_rating').value = b.average_rating;
-        $('#isbn').value = b.isbn ?? '';
-        $('#isbn13').value = b.isbn13 ?? '';
-        $('#language_code').value = b.language_code ?? '';
-        $('#num_pages').value = b.num_pages ?? '';
-        $('#text_reviews_count').value = b.text_reviews_count ?? '';
-        $('#ratings_count').value = b.ratings_count ?? '';
-        $('#publication_date').value = b.publication_date ?? '';
-        $('#publisher').value = b.publisher ?? '';
-
-        $('#bookForm').classList.remove('hidden');
-        setAlert('info', `Book ID ${id} loaded. Edit the fields and click Update.`);
-      } catch (err) {
-        setAlert('error', err.message);
-      }
-    });
-
-    // Update book
-    $('#bookForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      setAlert();
-
-      const id = parseInt($('#book_id').value, 10);
-      const url = buildItemUrl(id);
-
-      const data = {
-        book_id: id, // ignored by backend, but kept for compatibility
-        title: toTitleCase($('#title').value.trim()),
-        authors_raw: toTitleCase($('#authors_raw').value.trim()),
-        average_rating: $('#average_rating').value.trim(),
-        isbn: $('#isbn').value.trim(),
-        isbn13: $('#isbn13').value.trim(),
-        language_code: $('#language_code').value.trim(),
-        num_pages: $('#num_pages').value ? parseInt($('#num_pages').value, 10) : null,
-        text_reviews_count: $('#text_reviews_count').value ? parseInt($('#text_reviews_count').value, 10) : null,
-        ratings_count: $('#ratings_count').value ? parseInt($('#ratings_count').value, 10) : null,
-        publication_date: $('#publication_date').value || null,
-        publisher: $('#publisher').value.trim() || null,
-      };
-
-      if (!data.title || !data.authors_raw || !data.average_rating) {
-        setAlert('warn', 'Please fill in the required fields: title, authors, and average rating.');
-        return;
-      }
-      if (data.average_rating.includes(',')) {
-        setAlert('warn', 'Use a period (.) as the decimal separator in the average rating.');
-        return;
-      }
-
-      try {
-        const res = await fetch(url, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) {
-          const text = await res.text().catch(() => '');
-          throw new Error((text && text.length < 400 ? text : `HTTP Error ${res.status}`) + ` [URL: ${url}]`);
-        }
-        const updated = await res.json();
-        setAlert('ok', `Book successfully updated: <strong>${updated.title}</strong> (ID ${updated.book_id})`);
-      } catch (err) {
-        setAlert('error', `Failed to update: ${err.message}`);
-      }
-    });
-  </script>
 </body>
 </html>

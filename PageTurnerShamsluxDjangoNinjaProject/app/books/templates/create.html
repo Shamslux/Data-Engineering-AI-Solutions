@@ -122,87 +122,173 @@
     <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
   </footer>
 
-  <script>
-    const API_URL = '/api/books/'; // 🔑 with trailing slash
-    const $ = (sel) => document.querySelector(sel);
+<script>
+  const API_URL = '/api/books/'; // 🔑 with trailing slash
+  const $ = (sel) => document.querySelector(sel);
 
-    function setAlert(type, msg) {
-      const box = $('#alertBox');
-      if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
+  // CSRF helper (only needed if your Ninja API is not csrf=False)
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
 
-      const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
-      const styles = {
-        info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
-        warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
-        error: base + 'border-red-200 bg-red-50 text-red-900',
-        ok:    base + 'border-green-200 bg-green-50 text-green-900',
-      };
-      const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
+  function setAlert(type, msg) {
+    const box = $('#alertBox');
+    if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
 
-      box.className = styles[type] || styles.info;
-      box.innerHTML = `
-        <div class="flex items-center gap-2">
-          <span>${icons[type] || icons.info}</span>
-          <span>${msg}</span>
-        </div>
-        <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
-      `;
+    const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
+    const styles = {
+      info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
+      warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
+      error: base + 'border-red-200 bg-red-50 text-red-900',
+      ok:    base + 'border-green-200 bg-green-50 text-green-900',
+    };
+    const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
 
-      setTimeout(() => setAlert(), 5000);
+    box.className = styles[type] || styles.info;
+    box.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span>${icons[type] || icons.info}</span>
+        <span>${msg}</span>
+      </div>
+      <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
+    `;
+
+    // auto-hide after a while
+    window.clearTimeout(box.__timer);
+    box.__timer = window.setTimeout(() => setAlert(), 7000);
+  }
+
+  function toTitleCase(str) {
+    return String(str || '').replace(/\w\S*/g, (txt) =>
+      txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+    );
+  }
+
+  // ---- Normalizers / parsers ----
+  function valOrNull(s) {
+    const t = (s ?? '').trim();
+    return t === '' ? null : t;
+  }
+  function intOrNull(v) {
+    const n = Number.parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
+  }
+  function decimalOrNull(v) {
+    // Accepts dot-decimal only. Empty => null. Comma => NaN (invalid).
+    const t = typeof v === 'string' ? v.trim() : '';
+    if (!t) return null;
+    if (t.includes(',')) return NaN;
+    const n = Number(t);
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function findMissingRequired(data) {
+    const missing = [];
+    // Accept 0 as a valid book_id too (leading zeros like "0000" -> 0)
+    if (data.book_id == null || !Number.isInteger(data.book_id) || data.book_id < 0) {
+      missing.push('book_id');
+    }
+    if (!data.title || String(data.title).trim().length === 0) {
+      missing.push('title');
+    }
+    if (!data.authors_raw || String(data.authors_raw).trim().length === 0) {
+      missing.push('authors_raw');
+    }
+    if (data.average_rating == null || Number.isNaN(data.average_rating)) {
+      missing.push('average_rating');
+    }
+    return missing;
+  }
+
+
+  $('#bookForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setAlert();
+
+    // Read raw values first (useful for debugging)
+    const raw = {
+      book_id: $('#book_id')?.value,
+      title: $('#title')?.value,
+      authors_raw: $('#authors_raw')?.value,
+      average_rating: $('#average_rating')?.value,
+      isbn: $('#isbn')?.value,
+      isbn13: $('#isbn13')?.value,
+      language_code: $('#language_code')?.value,
+      num_pages: $('#num_pages')?.value,
+      text_reviews_count: $('#text_reviews_count')?.value,
+      ratings_count: $('#ratings_count')?.value,
+      publication_date: $('#publication_date')?.value,
+      publisher: $('#publisher')?.value,
+    };
+
+    // Build payload with normalization
+    const data = {
+      book_id: intOrNull(raw.book_id),
+      title: toTitleCase((raw.title || '').trim()),
+      authors_raw: toTitleCase((raw.authors_raw || '').trim()),
+      average_rating: decimalOrNull(raw.average_rating),
+      isbn: valOrNull(raw.isbn),
+      isbn13: valOrNull(raw.isbn13),
+      language_code: valOrNull(raw.language_code),
+      num_pages: intOrNull(raw.num_pages),
+      text_reviews_count: intOrNull(raw.text_reviews_count),
+      ratings_count: intOrNull(raw.ratings_count),
+      publication_date: valOrNull(raw.publication_date), // 'YYYY-MM-DD' or null
+      publisher: valOrNull(raw.publisher),
+    };
+
+    // Debug to console to see exactly what is being sent
+    console.debug('[CreateBook] raw:', raw);
+    console.debug('[CreateBook] normalized data:', data);
+
+    // Required fields check with explicit feedback
+    const missing = findMissingRequired(data);
+    if (missing.length > 0) {
+      setAlert('warn', `Please fill in all required fields. Missing/invalid: <strong>${missing.join(', ')}</strong>.`);
+      return;
     }
 
-    function toTitleCase(str) {
-      return str.replace(/\w\S*/g, (txt) =>
-        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-      );
-    }
+    // Headers (include CSRF token if cookie exists)
+    const headers = { 'Content-Type': 'application/json' };
+    const csrftoken = getCookie('csrftoken');
+    if (csrftoken) headers['X-CSRFToken'] = csrftoken;
 
-    $('#bookForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      setAlert();
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data)
+      });
 
-      const data = {
-        book_id: parseInt($('#book_id').value),
-        title: toTitleCase($('#title').value.trim()),
-        authors_raw: toTitleCase($('#authors_raw').value.trim()),
-        average_rating: $('#average_rating').value.trim(),
-        isbn: $('#isbn').value.trim(),
-        isbn13: $('#isbn13').value.trim(),
-        language_code: $('#language_code').value.trim() || null,
-        num_pages: $('#num_pages').value ? parseInt($('#num_pages').value) : null,
-        text_reviews_count: $('#text_reviews_count').value ? parseInt($('#text_reviews_count').value) : null,
-        ratings_count: $('#ratings_count').value ? parseInt($('#ratings_count').value) : null,
-        publication_date: $('#publication_date').value || null,
-        publisher: $('#publisher').value.trim() || null,
-      };
-
-      if (!data.book_id || !data.title || !data.authors_raw || !data.average_rating) {
-        setAlert('warn', 'Please fill in all required fields.');
-        return;
-      }
-      if (data.average_rating.includes(',')) {
-        setAlert('warn', 'Use a dot (.) as the decimal separator in the average rating.');
-        return;
-      }
-
-      try {
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (!res.ok) {
-          const err = await res.text();
-          throw new Error(err || `HTTP Error ${res.status}`);
+      if (!res.ok) {
+        let detail = '';
+        try {
+          const j = await res.json();
+          if (j && typeof j === 'object') {
+            if (j.detail) {
+              detail = typeof j.detail === 'string' ? j.detail : JSON.stringify(j.detail);
+            } else {
+              detail = JSON.stringify(j);
+            }
+          }
+        } catch {
+          detail = await res.text();
         }
-
-        const saved = await res.json();
-        setAlert('ok', `Book successfully created: <strong>${saved.title}</strong> (ID ${saved.book_id})`);
-        $('#bookForm').reset();
-      } catch (err) {
-        setAlert('error', `Failed to save: ${err.message}`);
+        throw new Error(detail || `HTTP Error ${res.status}`);
       }
-    });
-  </script>
+
+      const saved = await res.json();
+      setAlert('ok', `Book successfully created: <strong>${saved.title}</strong> (ID ${saved.book_id})`);
+      $('#bookForm').reset();
+    } catch (err) {
+      setAlert('error', `Failed to save: ${err.message}`);
+    }
+  });
+</script>
+
+
 </body>
 </html>
