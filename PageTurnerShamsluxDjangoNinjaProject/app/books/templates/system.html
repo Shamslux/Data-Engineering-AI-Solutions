@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PageTurner - System (Public API)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+
+      <!-- Menu -->
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-10 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-purple-700">API Testing System</h1>
+      <p class="mt-3 text-gray-700 max-w-2xl mx-auto">
+        Open API (no login required) to explore book endpoints: search, create, update, and delete.
+      </p>
+      <div class="mt-6">
+        <a href="/api/docs" class="inline-block bg-purple-700 text-white px-6 py-3 rounded shadow hover:bg-purple-800 transition">
+          Open Interactive Documentation (Swagger)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Warning -->
+    <div class="mb-8 rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-yellow-900">
+      <p class="font-semibold">Warning:</p>
+      <p class="text-sm mt-1">
+        This area publicly exposes API operations for testing purposes. Use fictional data and avoid submitting sensitive information.
+      </p>
+    </div>
+
+    <!-- Action Cards -->
+    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Main Actions</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <a href="/search/" class="block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition">
+        <h3 class="text-lg font-bold text-purple-800">Search Books</h3>
+        <p class="mt-2 text-sm text-gray-600">Listing, filters by title, author, and ISBN.</p>
+        <span class="mt-4 inline-block bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">Open</span>
+      </a>
+
+      <a href="/create/" class="block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition">
+        <h3 class="text-lg font-bold text-purple-800">Create Book</h3>
+        <p class="mt-2 text-sm text-gray-600">Simple form to send a POST request.</p>
+        <span class="mt-4 inline-block bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">Open</span>
+      </a>
+
+      <a href="/update/" class="block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition">
+        <h3 class="text-lg font-bold text-purple-800">Update Book</h3>
+        <p class="mt-2 text-sm text-gray-600">Edit data using PUT/PATCH.</p>
+        <span class="mt-4 inline-block bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">Open</span>
+      </a>
+
+      <a href="/delete/" class="block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition">
+        <h3 class="text-lg font-bold text-purple-800">Delete Book</h3>
+        <p class="mt-2 text-sm text-gray-600">Remove a record using DELETE.</p>
+        <span class="mt-4 inline-block bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">Open</span>
+      </a>
+
+      <a href="/api/docs" class="block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-md transition">
+        <h3 class="text-lg font-bold text-purple-800">Quick Test in Docs</h3>
+        <p class="mt-2 text-sm text-gray-600">GET/POST/PUT/DELETE directly in Swagger/OpenAPI.</p>
+        <span class="mt-4 inline-block bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 transition">Open</span>
+      </a>
+    </div>
+
+    <!-- Integration Tips (Commented Out) -->
+    <!--
+    <div class="mt-12 bg-white border border-gray-200 rounded-xl p-6 shadow">
+      <h2 class="text-xl font-semibold text-purple-700">Integration Tips for Screens</h2>
+      <ul class="mt-3 list-disc list-inside text-gray-700 space-y-2">
+        <li>Use <code class="px-1 py-0.5 rounded bg-gray-100">fetch()</code> with <code class="px-1 py-0.5 rounded bg-gray-100">Content-Type: application/json</code> for POST/PUT/PATCH.</li>
+        <li>For filters (title, author, ISBN), use query parameters (e.g., <code class="px-1 py-0.5 rounded bg-gray-100">/api/books?title=...</code>).</li>
+        <li>Standardize success/error messages in toast boxes or alerts using Tailwind.</li>
+        <li>Keep the layout consistent with this menu (cards, spacing, colors).</li>
+      </ul>
+    </div>
+    -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by
+    <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+</body>
+</html>

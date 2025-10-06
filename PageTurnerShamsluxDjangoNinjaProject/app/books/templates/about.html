@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About PageTurner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto py-24 px-6 text-center">
+    <h1 class="text-4xl font-bold text-purple-700 mb-6">About PageTurner</h1>
+    <p class="text-lg text-gray-700 leading-relaxed mb-8">
+      <strong>PageTurner</strong> was born as a fictional project with a real purpose: to show how technology, design, and literature can meet to create unique experiences.
+      Created by enthusiasts of data, reading, and web development, our digital bookstore is a space for learning, practice, and innovation.
+    </p>
+    <p class="text-lg text-gray-700 leading-relaxed mb-8">
+      Here, you can explore books, authors, and categories, and use a full RESTful API built with <strong>Django + Ninja</strong>. Our platform serves both as a showcase for works and as a database for technical studies and demonstrations.
+    </p>
+    <p class="text-lg text-gray-700 leading-relaxed mb-8">
+      Although fictional, PageTurner is real in its mission: to combine <em>relevant content</em> with <em>accessible technology</em>. Whether testing requests, browsing catalogs, or building new modules — this is a bookstore where every page can be turned with purpose.
+    </p>
+
+    <a href="/" class="mt-6 inline-block bg-purple-700 text-white px-6 py-3 rounded hover:bg-purple-800 transition">
+      ⬅ Back to Home
+    </a>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+</body>
+</html>

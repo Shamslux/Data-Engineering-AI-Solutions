@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PageTurner - Search Books</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Header -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-purple-700">Search Books</h1>
+      <p class="mt-2 text-gray-700">
+        Search by <span class="font-semibold">title</span>, <span class="font-semibold">author</span>, or <span class="font-semibold">ID</span> using the <code class="bg-gray-100 px-1 py-0.5 rounded">q</code> parameter.
+      </p>
+
+      <!-- Search bar + mode -->
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3">
+        <div class="relative">
+          <input id="qInput" type="text" placeholder="e.g.: harry, rowling, 15881..." class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500">
+          <button id="clearBtn" class="hidden absolute right-2 top-2 text-sm px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Clear</button>
+        </div>
+
+        <select id="mode" class="rounded-md border border-gray-300 bg-white px-3 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+          <option value="auto">Auto (title/author/ID)</option>
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="id">ID</option>
+        </select>
+
+        <button id="searchBtn" class="rounded-md bg-purple-700 text-white px-6 py-3 font-semibold hover:bg-purple-800 transition">
+          Search
+        </button>
+      </div>
+
+      <p class="mt-2 text-sm text-gray-500">Tip: press <kbd class="px-1 py-0.5 bg-gray-100 rounded">Enter</kbd> to search.</p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="mx-auto px-4 py-8 max-w-[120rem]">
+    <!-- Alerts -->
+    <div id="alertBox" class="hidden mb-6 rounded-lg border p-4"></div>
+
+    <!-- Summary -->
+    <div id="summary" class="hidden mb-4 text-sm text-gray-600"></div>
+
+    <!-- Results (hidden until first search) -->
+    <section id="resultsSection" class="hidden">
+      <div class="bg-white border border-gray-200 rounded-xl shadow overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-left text-sm">
+            <thead class="bg-gray-50 text-gray-700 sticky top-0">
+              <tr>
+                <th class="px-4 py-3 font-semibold">ID</th>
+                <th class="px-4 py-3 font-semibold">Title</th>
+                <th class="px-4 py-3 font-semibold">Authors</th>
+                <th class="px-4 py-3 font-semibold">Rating</th>
+                <th class="px-4 py-3 font-semibold">ISBN</th>
+                <th class="px-4 py-3 font-semibold">Language</th>
+                <th class="px-4 py-3 font-semibold">Publication</th>
+                <th class="px-4 py-3 font-semibold hidden md:table-cell">Publisher</th>
+                <th class="px-4 py-3 font-semibold hidden lg:table-cell">Created At</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="divide-y divide-gray-100">
+              <!-- dynamic rows -->
+            </tbody>
+          </table>
+        </div>
+        <div id="emptyState" class="hidden p-8 text-center text-gray-500">No results.</div>
+        <div id="loadingState" class="hidden p-8 text-center text-gray-500">Loading...</div>
+      </div>
+    </section>
+  </main>
+
+<!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by
+    <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+<script>
+  const searchBtn = document.getElementById('searchBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const qInput = document.getElementById('qInput');
+  const modeSelect = document.getElementById('mode');
+  const alertBox = document.getElementById('alertBox');
+  const resultsSection = document.getElementById('resultsSection');
+  const tableBody = document.getElementById('tableBody');
+  const emptyState = document.getElementById('emptyState');
+  const loadingState = document.getElementById('loadingState');
+  const summary = document.getElementById('summary');
+
+  function showAlert(message, type = 'info') {
+    alertBox.textContent = message;
+    alertBox.className = `mb-6 rounded-lg border p-4 ${
+      type === 'error'
+        ? 'border-red-200 bg-red-50 text-red-800'
+        : 'border-blue-200 bg-blue-50 text-blue-800'
+    }`;
+    alertBox.classList.remove('hidden');
+  }
+
+  function hideAlert() {
+    alertBox.classList.add('hidden');
+  }
+
+  function clearTable() {
+    tableBody.innerHTML = '';
+  }
+
+  function renderTable(books) {
+    clearTable();
+    books.forEach(book => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-4 py-2">${book.book_id}</td>
+        <td class="px-4 py-2">${book.title}</td>
+        <td class="px-4 py-2">${book.authors_raw}</td>
+        <td class="px-4 py-2">${book.average_rating ?? '-'}</td>
+        <td class="px-4 py-2">${book.isbn ?? '-'}</td>
+        <td class="px-4 py-2">${book.language_code ?? '-'}</td>
+        <td class="px-4 py-2">${book.publication_date ?? '-'}</td>
+        <td class="px-4 py-2 hidden md:table-cell">${book.publisher ?? '-'}</td>
+        <td class="px-4 py-2 hidden lg:table-cell">${book.created_at ?? '-'}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  async function searchBooks() {
+    const query = qInput.value.trim();
+    const mode = modeSelect.value.trim();
+
+    if (!query) {
+      showAlert('Please enter a search term.', 'error');
+      return;
+    }
+
+    hideAlert();
+    resultsSection.classList.remove('hidden');
+    summary.classList.add('hidden');
+    loadingState.classList.remove('hidden');
+    emptyState.classList.add('hidden');
+    clearTable();
+
+    try {
+      const url = `/api/books/?q=${encodeURIComponent(query)}&mode=${encodeURIComponent(mode)}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch');
+
+      const data = await response.json();
+
+      loadingState.classList.add('hidden');
+
+      if (data.length === 0) {
+        emptyState.classList.remove('hidden');
+        summary.classList.add('hidden');
+      } else {
+        renderTable(data);
+        summary.textContent = `${data.length} result(s) found.`;
+        summary.classList.remove('hidden');
+      }
+    } catch (error) {
+      loadingState.classList.add('hidden');
+      showAlert('An error occurred while fetching data.', 'error');
+    }
+  }
+
+  searchBtn.addEventListener('click', searchBooks);
+
+  qInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchBooks();
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    qInput.value = '';
+    clearBtn.classList.add('hidden');
+    qInput.focus();
+  });
+
+  qInput.addEventListener('input', () => {
+    clearBtn.classList.toggle('hidden', qInput.value.trim() === '');
+  });
+</script>
+
+
