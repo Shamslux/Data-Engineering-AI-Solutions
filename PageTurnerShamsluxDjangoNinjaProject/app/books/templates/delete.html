@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PageTurner - Delete Book</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Header -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-3xl mx-auto px-4 py-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-purple-700">Delete Book</h1>
+      <p class="mt-2 text-gray-700 text-sm">
+        Enter the <strong>book ID</strong> you want to delete.<br>
+        This action is <span class="font-semibold text-red-600">irreversible</span>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="max-w-3xl mx-auto px-4 py-8">
+    <!-- Messages -->
+    <div id="alertBox" class="hidden mb-6 rounded-lg border p-4 flex items-center justify-between"></div>
+
+    <!-- Form -->
+    <form id="deleteForm" class="space-y-6 bg-white p-6 rounded-xl shadow border border-gray-200">
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Book ID (book_id) *</label>
+        <input type="number" id="book_id" required class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-md font-semibold hover:bg-red-700 transition">
+          🗑️ Delete
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by
+    <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+  <script>
+    const API_URL = '/api/books/'; // 🔑 with trailing slash
+    const $ = (sel) => document.querySelector(sel);
+
+    function setAlert(type, msg) {
+      const box = $('#alertBox');
+      if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
+
+      const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
+      const styles = {
+        info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
+        warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
+        error: base + 'border-red-200 bg-red-50 text-red-900',
+        ok:    base + 'border-green-200 bg-green-50 text-green-900',
+      };
+      const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
+
+      box.className = styles[type] || styles.info;
+      box.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>${icons[type] || icons.info}</span>
+          <span>${msg}</span>
+        </div>
+        <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
+      `;
+
+      setTimeout(() => setAlert(), 5000);
+    }
+
+    $('#deleteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setAlert();
+
+      const bookId = $('#book_id').value.trim();
+      if (!bookId) {
+        setAlert('warn', 'Please enter the book ID.');
+        return;
+      }
+
+      if (!confirm(`Are you sure you want to delete book ${bookId}?`)) return;
+
+      try {
+        const res = await fetch(API_URL + bookId, { method: 'DELETE' });
+
+        if (res.status === 204) {
+          setAlert('ok', `Book ${bookId} successfully deleted.`);
+          $('#deleteForm').reset();
+        } else if (res.status === 404) {
+          setAlert('warn', 'Book not found.');
+        } else {
+          const err = await res.text();
+          throw new Error(err || `HTTP Error ${res.status}`);
+        }
+      } catch (err) {
+        setAlert('error', `Failed to delete: ${err.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

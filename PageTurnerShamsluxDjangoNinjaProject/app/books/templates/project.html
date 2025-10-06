@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Project | PageTurner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-6 py-16 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-purple-700">PageTurner Data Project</h1>
+      <p class="mt-4 text-lg text-gray-700">
+        Analytical architecture on <strong>Microsoft Fabric</strong> with Lakehouse, <strong>Bronze → Silver → Gold</strong> layers,
+        <strong>Dataflow Gen2</strong> for data processing and <strong>Spark notebooks</strong> for dimensional modeling.
+      </p>
+    </div>
+  </section>
+
+  <!-- Timeline / Steps -->
+  <section class="max-w-5xl mx-auto px-6 py-12">
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Bronze -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-purple-700">Bronze</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-700">Raw</span>
+        </div>
+        <p class="mt-3 text-gray-700 leading-relaxed">
+          We created the <strong>Lakehouse</strong> and loaded system extractions (CSV/Parquet) into the <strong>Bronze</strong> layer,
+          preserving the fidelity of source data for auditing and reprocessing.
+        </p>
+        <ul class="mt-4 text-sm text-gray-700 list-disc list-inside space-y-1">
+          <li>Ingestion via upload/OneLake</li>
+          <li>Basic partitioning by period</li>
+          <li>Schema on read</li>
+        </ul>
+      </div>
+
+      <!-- Silver -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-purple-700">Silver</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-700">Curated</span>
+        </div>
+        <p class="mt-3 text-gray-700 leading-relaxed">
+          We used <strong>Dataflow Gen2</strong> to clean, standardize, and enrich data,
+          producing trusted tables in the <strong>Silver</strong> layer.
+        </p>
+        <ul class="mt-4 text-sm text-gray-700 list-disc list-inside space-y-1">
+          <li>Normalization of types and dates</li>
+          <li>Handling nulls and duplicates</li>
+          <li>Business rules applied</li>
+        </ul>
+      </div>
+
+      <!-- Gold -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-purple-700">Gold</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-700">Semantic</span>
+        </div>
+        <p class="mt-3 text-gray-700 leading-relaxed">
+          With <strong>Spark notebooks</strong>, we created the dimensional model (e.g., <code class="bg-gray-100 px-1 rounded">dim_books</code>)
+          and fact tables for analytics and BI.
+        </p>
+        <ul class="mt-4 text-sm text-gray-700 list-disc list-inside space-y-1">
+          <li>Dimensions: <code class="bg-gray-100 px-1 rounded">dim_books</code>, <code class="bg-gray-100 px-1 rounded">dim_authors</code>, <code class="bg-gray-100 px-1 rounded">dim_clients</code></li>
+          <li>Facts: <code class="bg-gray-100 px-1 rounded">fact_sales</code></li>
+          <li>Surrogate keys and SCD (when applicable)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+<!-- Short technical block -->
+<section class="max-w-5xl mx-auto px-6 pb-16">
+  <div class="bg-purple-50 border border-purple-100 rounded-xl p-6">
+    <h2 class="text-2xl font-semibold text-purple-800">Stack and Integrations</h2>
+    <p class="mt-3 text-gray-700">
+      <strong>Fabric Lakehouse</strong>, <strong>Dataflow Gen2</strong>, <strong>Apache Spark</strong> (notebooks),
+      and <strong>Django + Ninja</strong> to expose the catalog API. The goal is to enable analytical exploration,
+      pipeline testing, and integration with modern applications.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3 text-sm">
+      <span class="px-3 py-1 rounded-full bg-white shadow text-purple-800">Fabric Lakehouse</span>
+      <span class="px-3 py-1 rounded-full bg-white shadow text-purple-800">Dataflow Gen2</span>
+      <span class="px-3 py-1 rounded-full bg-white shadow text-purple-800">Spark Notebooks</span>
+      <span class="px-3 py-1 rounded-full bg-white shadow text-purple-800">Django Ninja API</span>
+    </div>
+    <p class="mt-6 text-sm text-gray-600 italic">
+      This block refers to a second project based on the same fictional bookstore, PageTurner, 
+      now using Microsoft Fabric for data modeling and orchestration. The project will soon be available in my public GitLab repository.
+    </p>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by
+    <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+</body>
+</html>

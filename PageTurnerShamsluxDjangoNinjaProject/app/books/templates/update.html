@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PageTurner - Update Book</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Header -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-3xl mx-auto px-4 py-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-purple-700">Update Book</h1>
+      <p class="mt-2 text-gray-700 text-sm">
+        Provide the <strong>ID</strong> of the book, load the data, edit, and save.
+        <br><span class="font-semibold">Tips:</span>
+        - Title and authors will be converted to <em>Title Case</em>.  
+        - Multiple authors: separate them with <code class="bg-gray-100 px-1 py-0.5 rounded">/</code>.  
+        - Use <strong>.</strong> as the decimal separator for ratings and reviews.  
+        - Date must follow a valid calendar format.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <main class="max-w-3xl mx-auto px-4 py-8">
+    <!-- Alert Box -->
+    <div id="alertBox" class="hidden mb-6 rounded-lg border p-4 flex items-center justify-between"></div>
+
+    <!-- Book Search Section -->
+    <div class="bg-white p-6 rounded-xl shadow border border-gray-200 mb-8">
+      <label class="block font-medium text-sm text-gray-700 mb-2">Book ID to edit</label>
+      <div class="flex gap-2">
+        <input type="number" id="searchId" placeholder="e.g.: 12345" class="flex-1 border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+        <button id="loadBtn" class="bg-purple-700 text-white px-4 rounded-md font-semibold hover:bg-purple-800 transition">Load</button>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="bookForm" class="hidden space-y-6 bg-white p-6 rounded-xl shadow border border-gray-200">
+      <div>
+        <label class="block font-medium text-sm text-gray-700">ID (book_id)</label>
+        <input type="number" id="book_id" readonly class="mt-1 w-full border rounded-md px-3 py-2 bg-gray-100">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Title *</label>
+        <input type="text" id="title" required class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Authors (separate with /) *</label>
+        <input type="text" id="authors_raw" required class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Average Rating *</label>
+        <input type="text" id="average_rating" required placeholder="e.g.: 4.57" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-sm text-gray-700">ISBN</label>
+          <input type="text" id="isbn" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+        </div>
+        <div>
+          <label class="block font-medium text-sm text-gray-700">ISBN13</label>
+          <input type="text" id="isbn13" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Language (e.g.: eng, pt-BR)</label>
+        <input type="text" id="language_code" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Page Count</label>
+        <input type="number" id="num_pages" min="1" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium text-sm text-gray-700">Review Count</label>
+          <input type="number" id="text_reviews_count" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+        </div>
+        <div>
+          <label class="block font-medium text-sm text-gray-700">Rating Count</label>
+          <input type="number" id="ratings_count" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Publication Date</label>
+        <input type="date" id="publication_date" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="block font-medium text-sm text-gray-700">Publisher</label>
+        <input type="text" id="publisher" class="mt-1 w-full border rounded-md px-3 py-2 focus:ring-purple-500 focus:border-purple-500">
+      </div>
+
+      <div>
+        <button type="submit" class="w-full bg-purple-700 text-white py-3 rounded-md font-semibold hover:bg-purple-800 transition">Update</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by
+    <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+  <script>
+    // Note: the collection ends with '/', but individual item URLs DO NOT: we'll use base without trailing slash.
+    const API_URL = '/api/books'; // <-- no trailing slash
+    const $ = (sel) => document.querySelector(sel);
+
+    function setAlert(type, msg) {
+      const box = $('#alertBox');
+      if (!msg) { box.className = 'hidden'; box.innerHTML = ''; return; }
+      const base = 'mb-6 rounded-lg border p-4 flex items-center justify-between ';
+      const styles = {
+        info:  base + 'border-blue-200 bg-blue-50 text-blue-900',
+        warn:  base + 'border-yellow-200 bg-yellow-50 text-yellow-900',
+        error: base + 'border-red-200 bg-red-50 text-red-900',
+        ok:    base + 'border-green-200 bg-green-50 text-green-900',
+      };
+      const icons = { info: 'ℹ️', warn: '⚠️', error: '❌', ok: '✔️' };
+
+      box.className = styles[type] || styles.info;
+      box.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>${icons[type] || icons.info}</span>
+          <span>${msg}</span>
+        </div>
+        <button onclick="setAlert()" class="ml-4 text-sm font-semibold hover:underline">Close</button>
+      `;
+      setTimeout(() => setAlert(), 5000);
+    }
+
+    function toTitleCase(str) {
+      return str.replace(/\w\S*/g, (txt) =>
+        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+      );
+    }
+
+    function buildItemUrl(id) {
+      // Ensure /api/books/{id} (no trailing slash)
+      return `${API_URL}/${encodeURIComponent(String(id).trim())}`;
+    }
+
+    // Load book data
+    $('#loadBtn').addEventListener('click', async () => {
+      const idRaw = $('#searchId').value;
+      const id = parseInt(idRaw, 10);
+
+      if (!Number.isInteger(id) || id <= 0) {
+        setAlert('warn', 'Please enter a valid numeric ID to search.');
+        return;
+      }
+
+      const url = buildItemUrl(id);
+      try {
+        const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) {
+          const text = await res.text().catch(() => '');
+          throw new Error(`Book ID ${id} not found. [URL: ${url}] ${text ? ' • Details: ' + text : ''}`);
+        }
+        const b = await res.json();
+
+        $('#book_id').value = b.book_id;
+        $('#title').value = b.title;
+        $('#authors_raw').value = b.authors_raw;
+        $('#average_rating').value = b.average_rating;
+        $('#isbn').value = b.isbn ?? '';
+        $('#isbn13').value = b.isbn13 ?? '';
+        $('#language_code').value = b.language_code ?? '';
+        $('#num_pages').value = b.num_pages ?? '';
+        $('#text_reviews_count').value = b.text_reviews_count ?? '';
+        $('#ratings_count').value = b.ratings_count ?? '';
+        $('#publication_date').value = b.publication_date ?? '';
+        $('#publisher').value = b.publisher ?? '';
+
+        $('#bookForm').classList.remove('hidden');
+        setAlert('info', `Book ID ${id} loaded. Edit the fields and click Update.`);
+      } catch (err) {
+        setAlert('error', err.message);
+      }
+    });
+
+    // Update book
+    $('#bookForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setAlert();
+
+      const id = parseInt($('#book_id').value, 10);
+      const url = buildItemUrl(id);
+
+      const data = {
+        book_id: id, // ignored by backend, but kept for compatibility
+        title: toTitleCase($('#title').value.trim()),
+        authors_raw: toTitleCase($('#authors_raw').value.trim()),
+        average_rating: $('#average_rating').value.trim(),
+        isbn: $('#isbn').value.trim(),
+        isbn13: $('#isbn13').value.trim(),
+        language_code: $('#language_code').value.trim(),
+        num_pages: $('#num_pages').value ? parseInt($('#num_pages').value, 10) : null,
+        text_reviews_count: $('#text_reviews_count').value ? parseInt($('#text_reviews_count').value, 10) : null,
+        ratings_count: $('#ratings_count').value ? parseInt($('#ratings_count').value, 10) : null,
+        publication_date: $('#publication_date').value || null,
+        publisher: $('#publisher').value.trim() || null,
+      };
+
+      if (!data.title || !data.authors_raw || !data.average_rating) {
+        setAlert('warn', 'Please fill in the required fields: title, authors, and average rating.');
+        return;
+      }
+      if (data.average_rating.includes(',')) {
+        setAlert('warn', 'Use a period (.) as the decimal separator in the average rating.');
+        return;
+      }
+
+      try {
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) {
+          const text = await res.text().catch(() => '');
+          throw new Error((text && text.length < 400 ? text : `HTTP Error ${res.status}`) + ` [URL: ${url}]`);
+        }
+        const updated = await res.json();
+        setAlert('ok', `Book successfully updated: <strong>${updated.title}</strong> (ID ${updated.book_id})`);
+      } catch (err) {
+        setAlert('error', `Failed to update: ${err.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

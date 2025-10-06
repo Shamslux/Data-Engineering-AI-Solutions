@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PageTurner - Online Bookstore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .parallax {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-purple-800 text-white shadow-md z-10 relative">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="{% static 'images/purple_logo.png' %}" alt="PageTurner Logo" class="h-10 w-auto">
+        <span class="text-2xl font-semibold tracking-wide">PageTurner</span>
+      </div>
+
+      <!-- Menu -->
+      <nav class="space-x-6">
+        <a href="/" class="hover:text-purple-300 transition">Home</a>
+        <a href="/system/" class="hover:text-purple-300 transition">System</a>
+        <a href="/project/" class="hover:text-purple-300 transition">Data Project</a>
+        <a href="/about/" class="hover:text-purple-300 transition">About</a>
+        <a href="/api/docs" class="bg-white text-purple-800 px-3 py-1 rounded hover:bg-yellow-400 transition font-semibold shadow-sm">📘 API Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Parallax Section 1 -->
+  <section class="parallax h-[400px]" style="background-image: url('{% static "images/bookshelf_modern_library.jpg" %}');">
+  </section>
+
+  <!-- Main Content -->
+  <main class="text-center py-24 px-4 bg-white">
+    <h1 class="text-5xl font-bold text-purple-700 mb-4">Welcome to PageTurner</h1>
+    <p class="text-lg max-w-xl mx-auto text-gray-700">
+      A fictional digital bookstore to explore books, authors, categories, and integrate with our RESTful API developed with Django + Ninja.
+    </p>
+    <a href="/sistema/" class="mt-8 inline-block bg-purple-700 text-white px-6 py-3 rounded shadow hover:bg-purple-800 transition">
+      Access the System
+    </a>
+  </main>
+
+  <!-- Parallax Section 2 -->
+  <section class="parallax h-[400px]" style="background-image: url('{% static "images/reading_tablet_modern.jpg" %}');">
+  </section>
+
+  <!-- Additional Block -->
+  <section class="bg-gray-50 py-20 text-center px-4">
+    <h2 class="text-3xl font-semibold text-purple-700 mb-4">Discover New Authors</h2>
+    <p class="max-w-2xl mx-auto text-gray-700 text-lg">
+      Meet writers from various genres, styles, and countries. Explore personalized recommendations.
+    </p>
+  </section>
+
+  <!-- Parallax Section 3 -->
+  <section class="parallax h-[400px]" style="background-image: url('{% static "images/digital_books.jpg" %}');">
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-purple-900 text-white text-sm text-center py-4">
+    &copy; 2025 PageTurner. Developed by <a href="https://shamslux.github.io/ShamsluxTechVault/" target="_blank" class="underline hover:text-purple-300">Shamslux</a>.
+  </footer>
+
+</body>
+</html>

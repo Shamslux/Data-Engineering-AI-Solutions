@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:16
+    container_name: pg_bookstore
+    environment:
+      POSTGRES_DB: bookstore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5432:5432"]
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bookstore"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: ./app
+    container_name: django_bookstore
+    command: ["/bin/bash", "-c", "./entrypoint.sh"]
+    environment:
+      DJANGO_DEBUG: "1"
+      DJANGO_SECRET_KEY: "dev-secret"
+      DB_NAME: "bookstore"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+    volumes:
+      - ./app:/code
+    ports: ["8000:8000"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  ingest:
+    build: ./ingest
+    container_name: ingest_books
+    environment:
+      DB_NAME: "bookstore"
+      DB_USER: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      CSV_PATH: "/data/books.csv"   
+    volumes:
+      - ./data:/data:ro             
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  pg_data:
