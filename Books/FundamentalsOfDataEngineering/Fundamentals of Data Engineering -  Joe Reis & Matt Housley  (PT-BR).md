@@ -286,3 +286,267 @@ análises posteriores, tornando-a vantajosa para engenheiros de dados.
 
 O trecho conclui mencionando que as melhores práticas e técnicas de ingestão serão discutidas com mais detalhes no
 Capítulo 7, com foco no estágio de transformação do ciclo de vida de engenharia de dados a seguir.
+
+## Capítulo 3 – Resumo
+
+### Visão Geral
+
+Uma boa arquitetura de dados garante **capacidades integradas** em todas as etapas do ciclo de vida dos dados, aproveitando a **nuvem** para escalabilidade, disponibilidade e confiabilidade.  
+Trata-se de **equilibrar flexibilidade e compensações (trade-offs)** enquanto se promove **gestão de mudanças**.
+
+---
+
+### Arquitetura Corporativa (Enterprise Architecture)
+
+#### Definição
+
+**Arquitetura corporativa (EA)** = design de sistemas que sustentam **mudanças** na organização, alcançado por meio de **decisões flexíveis e reversíveis**, baseadas em uma cuidadosa **avaliação de trade-offs**.
+
+#### Inspirações e Ideias-Chave
+
+* **TOGAF** → a arquitetura abrange múltiplos sistemas e funções.
+* **Gartner** → a EA alinha negócios e TI em resposta a disrupções.
+* **EABOK** → a EA alinha estratégia, operações e tecnologia.
+* **Temas comuns:** mudança, alinhamento, oportunidades, solução de problemas e migração.
+
+#### Conceitos Centrais
+
+* **Decisões reversíveis** (metáfora das *portas de mão única/mão dupla* de Jeff Bezos).  
+* **Gestão de mudanças:** implementar transformações por meio de pequenas etapas iterativas.  
+* **Trade-offs:** equilibrar flexibilidade com restrições (tempo, custo, confiabilidade, complexidade).
+
+> *A arquitetura corporativa equilibra flexibilidade e trade-offs em um mundo em constante mudança.*
+
+---
+
+### Arquitetura de Dados
+
+#### Definição
+
+> **Arquitetura de dados** = design de sistemas que sustentam as necessidades de dados em evolução de uma empresa, alcançado por decisões flexíveis e reversíveis tomadas com base em uma avaliação cuidadosa de trade-offs.
+
+#### Relação com a EA
+
+* Subconjunto da arquitetura corporativa.  
+* Engloba **arquitetura operacional** e **arquitetura técnica**.
+
+| Tipo              | Descrição                                                        | Exemplo                                    |
+| ----------------- | ---------------------------------------------------------------- | ------------------------------------------ |
+| **Operacional**   | Define *o que* precisa acontecer (pessoas, processos, latência). | Processos de negócio, SLAs, gestão de dados. |
+| **Técnica**       | Define *como* acontece (ingestão, armazenamento, transformação). | Pipelines, bancos de dados, camadas de computação. |
+
+---
+
+### Princípios de uma Boa Arquitetura de Dados
+
+> “Nunca busque a melhor arquitetura, e sim a menos pior.” — Neal Ford & Mark Richards
+
+#### 1. Escolha Bem os Componentes Comuns
+
+* Escolha **ferramentas compartilhadas** (armazenamento, orquestração, observabilidade) que promovam **colaboração**.  
+* Evite soluções “tamanho único”.  
+* Plataformas em nuvem permitem acesso compartilhado com controle de permissões (IAM).
+
+#### 2. Planeje para Falhas
+
+> “Tudo falha, o tempo todo.” — Werner Vogels
+
+* Projete considerando **disponibilidade**, **confiabilidade**, **RTO** (tempo máximo de recuperação) e **RPO** (ponto de recuperação).  
+* Defina o tempo e perda de dados aceitáveis em caso de falha.
+
+#### 3. Arquitetar para Escalabilidade
+
+* **Escalar para cima** (maiores cargas) e **para baixo** (reduzir custos).  
+* **Elasticidade** → escalonamento automático (até zero, quando ocioso).  
+* Adapte a estratégia de escalabilidade ao crescimento do negócio.
+
+#### 4. Arquitetura é Liderança
+
+* Arquitetos = **líderes técnicos e mentores**.  
+* Promovem colaboração e evitam controle centralizado.  
+* Ensinam boas práticas e previnem gargalos arquiteturais.
+
+#### 5. Esteja Sempre Arquitetando
+
+* Arquitetura = **design contínuo**, não algo estático.  
+* Mantenha **estado atual → estado alvo → plano de transição**.  
+* Processo ágil, iterativo e colaborativo.
+
+#### 6. Construa Sistemas Fracamente Acoplados
+
+* Inspirado no **mandato da API** de Bezos (2002).  
+* Componentes se comunicam via APIs ou mensageria.  
+* Permite que equipes trabalhem e evoluam de forma independente.
+
+#### 7. Tome Decisões Reversíveis
+
+* Prefira **portas de mão dupla**.  
+* Elimine irreversibilidade em projetos de software.  
+* Facilita adaptação a novas ferramentas e tecnologias.
+
+#### 8. Priorize a Segurança
+
+* Transição do modelo de **perímetro rígido** para **confiança zero (zero trust)**.  
+* Compreenda o modelo de **responsabilidade compartilhada** (ex.: AWS – da nuvem x na nuvem).  
+* Engenheiros de dados = **engenheiros de segurança**.  
+* Evite baldes S3 públicos, permissões incorretas, falhas de IAM, etc.
+
+#### 9. Adote FinOps
+
+* Gestão **colaborativa de custos na nuvem** entre DevOps e Finanças.  
+* Monitore gastos em tempo real.  
+* Otimize uso (instâncias spot, capacidade reservada, alertas de custo).  
+* Planeje **degradação controlada** em picos de despesa.
+
+---
+
+### Conceitos Principais de Arquitetura
+
+#### Domínios e Serviços
+
+* **Domínio** = área de negócio (ex.: vendas, contabilidade).  
+* **Serviço** = funcionalidade específica dentro do domínio.  
+* Promova **design orientado a domínios (DDD)**.
+
+#### Sistemas Distribuídos e Escalabilidade
+
+* Características: **escalabilidade**, **elasticidade**, **disponibilidade**, **confiabilidade**.  
+* Escalabilidade horizontal (modelo líder–seguidores).  
+* Aprofunde-se em princípios de sistemas distribuídos (*Designing Data-Intensive Applications*).
+
+#### Acoplamento Forte vs. Fraco
+
+* **Fortemente acoplado** = centralizado e rígido.  
+* **Fracamente acoplado** = modular, descentralizado, resiliente.  
+* Equilibre centralização e autonomia.
+
+#### Camadas de Arquitetura
+
+| Tipo de Camada       | Descrição                                      | Exemplo                    |
+| -------------------- | ---------------------------------------------- | -------------------------- |
+| **Camada Única**     | App + banco no mesmo servidor.                 | Protótipo/desenvolvimento. |
+| **Multicamadas (n-tier)** | Separação entre dados, lógica e apresentação. | Modelo cliente-servidor 3 camadas. |
+
+#### Monólitos vs. Microsserviços
+
+| Tipo              | Características                       | Trade-offs                           |
+| ----------------- | -------------------------------------- | ------------------------------------ |
+| **Monólito**      | Centralizado, código único.            | Simples → frágil, difícil de escalar. |
+| **Microsserviços** | Desacoplados, modulares e específicos. | Flexíveis → complexos, maior custo.   |
+
+→ Abordagem pragmática: comece monolítico e **evolua para modularidade**.
+
+---
+
+### Acesso de Usuário: Único vs. Multilocatário
+
+* Defina o nível de isolamento (ex.: um data warehouse por cliente?).  
+* Atenção a:
+  * **Desempenho** → evitar “vizinhos barulhentos”.  
+  * **Segurança** → isolar dados (views, esquemas, políticas de acesso).
+
+---
+
+### Arquitetura Orientada a Eventos (EDA)
+
+* Eventos de negócio (pedidos, atualizações etc.) fluem de forma assíncrona:
+  * **Produtor → Roteador → Consumidor**
+* Promove **acoplamento fraco e escalabilidade**.  
+* Facilita resiliência e reprocessamento de eventos.
+
+---
+
+### Projetos Brownfield vs. Greenfield
+
+| Tipo           | Descrição                          | Abordagem Recomendada                         |
+| -------------- | ---------------------------------- | --------------------------------------------- |
+| **Brownfield** | Reestruturação de sistemas legados. | Use o **padrão strangler** (substituição gradual). |
+| **Greenfield** | Projeto do zero.                    | Evite modismos; foque no **ROI**.             |
+
+> Sempre priorize **reversibilidade, flexibilidade e valor**.
+
+---
+
+### Tipos Comuns de Arquitetura de Dados
+
+#### Data Warehouse (Armazém de Dados)
+
+* Centraliza dados **estruturados** para análise.  
+* Utiliza **ETL ou ELT**.  
+* Emprega **MPP** (processamento massivo paralelo).  
+* Pode conter **data marts** departamentais.  
+* Na nuvem → separação entre **armazenamento e computação** (BigQuery, Snowflake).
+
+#### Data Lake (Lago de Dados)
+
+* Armazena **dados estruturados e não estruturados** em storage de objetos.  
+* Problemas da 1ª geração → “data swamps”.  
+* Evolução → **data lakehouse** e **plataformas de dados** com ACID, schema e governança.
+
+#### Convergência: Data Lakehouse / Plataforma de Dados
+
+* Une **confiabilidade do warehouse** + **flexibilidade do lake**.  
+* Computação e armazenamento unificados (Databricks, Snowflake, BigQuery).  
+* Tendência futura → **plataformas totalmente convergentes**.
+
+#### Stack Moderna de Dados (Modern Data Stack)
+
+* **Modular**, nativa da nuvem e plugável.  
+* Foco em **autoatendimento**, **comunidade** e **transparência**.  
+* Etapas: ingestão → armazenamento → transformação → governança → visualização.  
+* Promove agilidade e clareza de custos.
+
+#### Arquitetura Lambda
+
+* Combina **batch + streaming** em uma camada unificada.  
+* Desafio: **código duplicado e alta complexidade**.
+
+#### Arquitetura Kappa
+
+* Usa um único backbone de **streaming** para batch e tempo real.  
+* Conceito simples, mas **caro e complexo na prática**.
+
+#### Modelo Dataflow (Batch + Streaming Unificados)
+
+* Modelo **Dataflow / Apache Beam** (Google).  
+* Trata **batch como stream delimitado**.  
+* Código único para processamento em tempo real e em lote.
+
+#### Arquitetura IoT
+
+* **Dispositivos → Gateways → Ingestão → Armazenamento → Entrega**
+* Inclui:
+  * **Computação de borda (edge)**  
+  * **Ingestão de eventos** (filas)  
+  * **Processamento em lote ou streaming**  
+  * **Feedback reverso (reverse ETL)**
+
+#### Data Mesh
+
+* Abordagem **descentralizada e orientada a domínios**.  
+* Princípios (Zhamak Dehghani):  
+  1. Propriedade de dados por domínio  
+  2. Dados como produto  
+  3. Infraestrutura de autoatendimento  
+  4. Governança federada  
+* Contrapõe-se a data lakes centralizados e monolíticos.
+
+---
+
+### Quem Define a Arquitetura de Dados?
+
+* Trabalho colaborativo: **engenheiros de dados + arquitetos + stakeholders**.  
+* Arquitetos deixam de ser isolados — precisam ser **ágeis e práticos**.  
+* Engenheiros devem compreender **trade-offs e o ciclo de vida dos dados**.  
+* Avaliar plataformas, provedores de nuvem e novas tecnologias.
+
+---
+
+### Conclusões-Chave
+
+* **Arquitetura de dados = design flexível, reversível e guiado por trade-offs.**  
+* Priorize **agilidade, escalabilidade, segurança e consciência de custos**.  
+* Construa sistemas **fracamente acoplados e orientados a domínios**.  
+* **Planeje para mudanças** — a arquitetura nunca é definitiva.  
+* O futuro é **nativo da nuvem, modular e orientado a FinOps, EDA e automação.**
+
