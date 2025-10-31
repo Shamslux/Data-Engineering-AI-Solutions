@@ -1,0 +1,135 @@
+x-airflow-env: &airflow_env
+  AIRFLOW__CORE__EXECUTOR: LocalExecutor
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+  AIRFLOW__WEBSERVER__SECRET_KEY: "change_me_a_random_long_string"
+  AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+  AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: lab-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - lab-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer:latest
+    container_name: lab-adminer
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    networks:
+      - lab-net
+
+  airflow-init:
+    image: airflow-custom:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab-airflow-init
+    environment:
+      <<: *airflow_env
+      AIRFLOW_UID: "${AIRFLOW_UID:-50000}"
+      AIRFLOW_GID: "${AIRFLOW_GID:-0}"
+    user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-0}"
+    entrypoint: /bin/bash
+    command: ["-c", "set -euo pipefail; airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && echo '✅ Airflow DB inicializado com sucesso.'"]
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - lab-net
+
+  airflow-webserver:
+    image: airflow-custom:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab-airflow-web
+    environment:
+      <<: *airflow_env
+      AIRFLOW_UID: "${AIRFLOW_UID:-50000}"
+      AIRFLOW_GID: "${AIRFLOW_GID:-0}"
+    user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-0}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    ports:
+      - "8081:8080"
+    command: ["webserver"]
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+    networks:
+      - lab-net
+
+  airflow-scheduler:
+    image: airflow-custom:2.9.2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab-airflow-scheduler
+    environment:
+      <<: *airflow_env
+      AIRFLOW_UID: "${AIRFLOW_UID:-50000}"
+      AIRFLOW_GID: "${AIRFLOW_GID:-0}"
+    user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-0}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    command: ["scheduler"]
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+    networks:
+      - lab-net
+
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: lab-jupyter
+    environment:
+      JUPYTER_TOKEN: lab
+      PYSPARK_PYTHON: python
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    networks:
+      - lab-net
+
+volumes:
+  pgdata:
+
+networks:
+  lab-net:
+    driver: bridge
