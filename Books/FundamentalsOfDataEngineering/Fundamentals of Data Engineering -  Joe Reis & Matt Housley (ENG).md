@@ -26,6 +26,46 @@
     - [Streaming Ingestion](#streaming-ingestion)
     - [Key Considerations for Batch versus Streaming Ingestion](#key-considerations-for-batch-versus-streaming-ingestion)
     - [Push vs Pull](#push-vs-pull)
+  - [Chapter 3 Summary](#chapter-3-summary)
+    - [Overview](#overview)
+    - [Enterprise Architecture](#enterprise-architecture)
+      - [Definition](#definition)
+      - [Inspirations and Key Ideas](#inspirations-and-key-ideas)
+      - [Core Concepts](#core-concepts)
+    - [Data Architecture](#data-architecture)
+      - [Definition](#definition-1)
+      - [Relation to EA](#relation-to-ea)
+    - [Principles of Good Data Architecture](#principles-of-good-data-architecture)
+      - [1. Choose Common Components Wisely](#1-choose-common-components-wisely)
+      - [2. Plan for Failure](#2-plan-for-failure)
+      - [3. Architect for Scalability](#3-architect-for-scalability)
+      - [4. Architecture Is Leadership](#4-architecture-is-leadership)
+      - [5. Always Be Architecting](#5-always-be-architecting)
+      - [6. Build Loosely Coupled Systems](#6-build-loosely-coupled-systems)
+      - [7. Make Reversible Decisions](#7-make-reversible-decisions)
+      - [8. Prioritize Security](#8-prioritize-security)
+      - [9. Embrace FinOps](#9-embrace-finops)
+    - [Major Architecture Concepts](#major-architecture-concepts)
+      - [Domains and Services](#domains-and-services)
+      - [Distributed Systems & Scalability](#distributed-systems--scalability)
+      - [Tight vs. Loose Coupling](#tight-vs-loose-coupling)
+        - [Architecture Tiers](#architecture-tiers)
+        - [Monoliths vs. Microservices](#monoliths-vs-microservices)
+    - [User Access: Single vs. Multitenant](#user-access-single-vs-multitenant)
+    - [Event-Driven Architecture (EDA)](#event-driven-architecture-eda)
+    - [Brownfield vs. Greenfield Projects](#brownfield-vs-greenfield-projects)
+    - [Common Data Architecture Types](#common-data-architecture-types)
+      - [Data Warehouse](#data-warehouse)
+      - [Data Lake](#data-lake)
+      - [Convergence: Data Lakehouse / Data Platform](#convergence-data-lakehouse--data-platform)
+      - [Modern Data Stack](#modern-data-stack)
+      - [Lambda Architecture](#lambda-architecture)
+      - [Kappa Architecture](#kappa-architecture)
+      - [Dataflow Model (Unified Batch + Streaming)](#dataflow-model-unified-batch--streaming)
+      - [IoT Architecture](#iot-architecture)
+      - [Data Mesh](#data-mesh)
+    - [Who Designs Data Architecture?](#who-designs-data-architecture)
+    - [Key Takeaways](#key-takeaways)
 
 # Fundamentals of Data Engineering - Joe Reis & Matt Housley
 
@@ -336,4 +376,272 @@ engineers.
 The passage concludes by mentioning that ingestion best practices and techniques will be discussed in more detail in
 Chapter 7, with a focus on the transformation stage of the data engineering lifecycle to follow.
 
+## Chapter 3 Summary
+
+### Overview
+
+Good data architecture ensures **seamless capabilities** across all stages of the data lifecycle, leveraging the **cloud** for scalability, availability, and reliability.
+It’s about **balancing flexibility and trade-offs** while enabling **change management**.
+
+---
+
+### Enterprise Architecture
+
+#### Definition
+
+**Enterprise architecture (EA)** = design of systems to support **change** in the enterprise, achieved by **flexible and reversible decisions** through careful **evaluation of trade-offs**.
+
+#### Inspirations and Key Ideas
+
+* **TOGAF** → architecture spans multiple systems & functions.
+* **Gartner** → EA aligns business & IT responses to disruption.
+* **EABOK** → EA aligns strategy, operations, and technology.
+* **Common threads:** change, alignment, opportunities, problem-solving, migration.
+
+#### Core Concepts
+
+* **Reversible decisions** (Jeff Bezos’s *one-way/two-way doors* metaphor).
+* **Change management**: implement transformation through small, iterative steps.
+* **Trade-offs**: balance flexibility vs. constraints (time, cost, reliability, complexity).
+
+> *Enterprise architecture balances flexibility and trade-offs in a changing world.*
+
+---
+
+### Data Architecture
+
+#### Definition
+
+> **Data architecture** = design of systems to support the evolving data needs of an enterprise, achieved by flexible and reversible decisions reached through careful evaluation of trade-offs.
+
+#### Relation to EA
+
+* Subset of enterprise architecture.
+* Encompasses **operational** and **technical** architecture.
+
+| Type            | Description                                                           | Example                                    |
+| --------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| **Operational** | Defines *what* needs to happen (people, processes, latency, quality). | Business processes, SLAs, data management. |
+| **Technical**   | Defines *how* it happens (ingest, store, transform, serve).           | Pipelines, databases, compute layers.      |
+
+---
+
+### Principles of Good Data Architecture
+
+> “Never shoot for the best architecture, but rather the least worst.” — Neal Ford & Mark Richards
+
+#### 1. Choose Common Components Wisely
+
+* Pick **shared tools** (e.g., storage, orchestration, observability) that promote **collaboration**.
+* Avoid “one-size-fits-all” impositions.
+* Cloud platforms enable shared access via object storage, IAM, etc.
+
+#### 2. Plan for Failure
+
+> “Everything fails, all the time.” — Werner Vogels
+
+* Design for failure using **availability**, **reliability**, **RTO**, and **RPO**.
+* Define acceptable downtime and data loss.
+
+#### 3. Architect for Scalability
+
+* **Scale up** (handle large workloads) and **scale down** (reduce costs).
+* **Elasticity** → automatic scaling (sometimes to zero).
+* Match scaling strategy to business growth.
+
+#### 4. Architecture Is Leadership
+
+* Architects = **technical leaders + mentors**.
+* Encourage collaboration, avoid command-and-control.
+* Teach best practices, prevent architectural bottlenecks.
+
+#### 5. Always Be Architecting
+
+* Architecture = **continuous design**, not a static artifact.
+* Maintain **baseline → target → sequencing plan**.
+* Agile, iterative, collaborative process.
+
+#### 6. Build Loosely Coupled Systems
+
+* Inspired by **Bezos’s API Mandate** (2002).
+* Components communicate via APIs or messaging buses.
+* Enables independent team delivery and evolution.
+
+#### 7. Make Reversible Decisions
+
+* Prefer **two-way doors**.
+* Eliminate irreversibility in software design.
+* Enables agile adaptation to new tools or paradigms.
+
+#### 8. Prioritize Security
+
+* Shift from **hard perimeter** → **zero trust** model.
+* Understand **shared responsibility** (e.g., AWS: of the cloud vs. in the cloud).
+* Data engineers = **security engineers**.
+* Avoid misconfigured public buckets, insecure IAM, etc.
+
+#### 9. Embrace FinOps
+
+* Collaborative **cloud cost management** between DevOps and Finance.
+* Monitor spend dynamically.
+* Optimize usage (spot instances, reserved capacity, cost alerts).
+* Plan for **graceful degradation** under cost surges.
+
+---
+
+### Major Architecture Concepts
+
+#### Domains and Services
+
+* **Domain** = business area (e.g., sales, accounting).
+* **Service** = specific functionality within a domain.
+* Encourage **domain-driven design**.
+
+#### Distributed Systems & Scalability
+
+* Key traits: **Scalability**, **Elasticity**, **Availability**, **Reliability**.
+* Horizontal scaling (leader-follower systems).
+* Learn distributed principles (see *Designing Data-Intensive Applications*).
+
+#### Tight vs. Loose Coupling
+
+* **Tightly coupled** = centralized, hard to change.
+* **Loosely coupled** = decentralized, modular, resilient.
+* Balance centralization vs. autonomy.
+
+#### Architecture Tiers
+
+| Tier Type              | Description                                    | Example                     |
+| ---------------------- | ---------------------------------------------- | --------------------------- |
+| **Single-tier**        | All components (app + DB) on one machine.      | Prototype/local dev only.   |
+| **Multitier (n-tier)** | Separate data, logic, and presentation layers. | 3-tier client-server model. |
+
+#### Monoliths vs. Microservices
+
+| Type              | Traits                               | Trade-offs                             |
+| ----------------- | ------------------------------------ | -------------------------------------- |
+| **Monolith**      | Centralized, rigid, shared codebase. | Simplicity → fragility, hard to scale. |
+| **Microservices** | Decoupled, modular, domain-based.    | Flexibility → complexity, overhead.    |
+
+→ Pragmatic takeaway: start monolithic, **evolve toward modularity**.
+
+---
+
+### User Access: Single vs. Multitenant
+
+* Decide isolation granularity (e.g., one data warehouse per tenant?).
+* Concerns:
+
+  * **Performance** → avoid noisy neighbor effect.
+  * **Security** → ensure strict isolation (views, schemas, access policies).
+
+---
+
+### Event-Driven Architecture (EDA)
+
+* Business events (orders, updates, etc.) flow asynchronously:
+
+  * **Producer → Router → Consumer**
+* Enables **loosely coupled, scalable** communication across services.
+* Supports resilience and replayability.
+
+---
+
+### Brownfield vs. Greenfield Projects
+
+| Type           | Description                    | Recommended Approach                                 |
+| -------------- | ------------------------------ | ---------------------------------------------------- |
+| **Brownfield** | Refactoring existing systems.  | Use **strangler pattern** (incremental replacement). |
+| **Greenfield** | New architecture from scratch. | Avoid shiny-object syndrome; focus on ROI.           |
+
+> Always prioritize **reversibility, flexibility, and value**.
+
+---
+
+### Common Data Architecture Types
+
+#### Data Warehouse
+
+* Centralized **structured** data hub for analytics.
+* **ETL or ELT** workflows.
+* Uses **MPP** (massively parallel processing).
+* Supports data marts for departmental analytics.
+* Cloud evolution → compute/storage separation (e.g., BigQuery, Snowflake).
+
+#### Data Lake
+
+* Stores **all data (structured + unstructured)** in object storage.
+* 1st-gen issues → “data swamps.”
+* Successors → **data lakehouse** and **data platforms** with ACID, schema, governance.
+
+#### Convergence: Data Lakehouse / Data Platform
+
+* Combines **warehouse reliability** + **lake flexibility**.
+* Unified compute & storage (Databricks, Snowflake, BigQuery).
+* Future trend → **fully converged platforms**.
+
+#### Modern Data Stack
+
+* **Modular**, cloud-native, plug-and-play tools.
+* Emphasizes self-service, community, transparency.
+* Components: ingestion → storage → transformation → governance → visualization.
+* Promotes agility and cost transparency.
+
+#### Lambda Architecture
+
+* Combines **batch + streaming** layers → unified serving.
+* Challenge: duplicate code paths, complexity.
+
+#### Kappa Architecture
+
+* Single **streaming backbone** for batch + real-time.
+* Simpler conceptually, harder operationally (cost, complexity).
+
+#### Dataflow Model (Unified Batch + Streaming)
+
+* Google’s **Dataflow / Apache Beam** model.
+* Treats **batch as bounded stream**.
+* Single codebase for both real-time and batch processing.
+
+#### IoT Architecture
+
+* **Devices → Gateways → Ingestion → Storage → Serving**
+* Includes:
+
+  * **Edge computing**
+  * **Event ingestion** via queues
+  * **Batch or stream processing**
+  * **Reverse ETL-style feedback loops**
+
+#### Data Mesh
+
+* Decentralized, **domain-oriented** approach.
+* Key principles (Zhamak Dehghani):
+
+  1. Domain-oriented data ownership
+  2. Data as a product
+  3. Self-serve infrastructure platform
+  4. Federated governance
+* Opposes monolithic centralized data lakes.
+
+---
+
+### Who Designs Data Architecture?
+
+* Collaborative effort: **data engineers + data architects + stakeholders**.
+* Architects no longer isolated — must stay **hands-on and agile**.
+* Engineers must understand trade-offs and lifecycle alignment.
+* Evaluate cloud trade-offs, platform choices, and evolving technologies.
+
+---
+
+### Key Takeaways
+
+* **Data architecture = flexible, reversible, trade-off–driven design.**
+* Prioritize **agility, scalability, security, and cost-awareness**.
+* Build **loosely coupled, domain-driven systems**.
+* Always **plan for change** — architecture is never static.
+* Cloud-native and modular designs (FinOps + EDA + automation) define the future.
+
+---
 
