@@ -69,60 +69,49 @@ Here we start documenting what NovaTrade Inc. employees are going to request fro
 ## Sales Analytical Information
 
 
-## 👤 Requester (does this word exist? hahaha)
+### 👤 Requester (does this word exist? hahaha)
 
 - **Name:** Sarah McConnell  
 - **Position:** Head of Sales Operations  
 - **Department:** Business Intelligence & Strategy  
 - **Company:** NovaTrade Inc.
 
+---
 
-Hi team,
+<img src="https://github.com/user-attachments/assets/3eadb201-c3aa-4149-8529-d20b8e7a1828" alt="Sarah Pixel Portrait" width="200" height="250">
 
-This is Sarah McConnell, Head of Sales Operations here at NovaTrade Inc.
-
-I’m reaching out to request your support in ingesting a new Excel spreadsheet named `novatrade_sales_data_xlarge.xlsx` into our analytical data lake. I've uploaded the file to the shared `/data` folder in the Airflow environment.
-
-This dataset contains:
-
-- **100,000 sales records** from January 2024 through December 2025.
-- **2,500 unique customers**, including region segmentation across 5 key territories (North, South, East, West, Central).
-- **100 distinct products**, categorized under Widgets, Gadgets, Accessories, Tools, Supplies, and Components.
-
-We are preparing a comprehensive multi-year performance analysis for the executive leadership team, and I need the following from the data engineering team:
+**🎤 Sarah McConnell**  
+*Head of Sales Operations – NovaTrade Inc.*
 
 ---
 
-### 📊 Business Requirements
+> 📁 **Data Upload Notice**  
+> I’ve uploaded the file `novatrade_sales_data_xlarge.xlsx` to the `/data` folder in Airflow.
+>
+> 🧠 **Objectives**  
+> • Load data into PostgreSQL (OLAP)  
+> • Use tables: `dim_customer`, `dim_product`, `fact_sales`  
+> • Enforce FK constraints using `Customer_ID`, `Product_ID`
+>
+> 📊 **KPIs**  
+> - Total revenue by region  
+> - Quantity sold per category  
+> - Average transaction per customer  
+> - Top 10 products (volume & revenue)  
+> - Weekday vs weekend patterns  
+>
+> ❓ **Questions to Answer**  
+> - What are our top performing regions and categories in 2024–2025?  
+> - Who are our top 50 customers?  
+> - Any YoY growth in product lines?  
+> - Monthly/seasonal dips?
+>
+> ⚙️ Please automate this via Airflow.  
+> Let me know if you need anything else!
 
-**1. Load the Excel data into our analytical PostgreSQL database (OLAP layer).**
-  - Suggested schema:
-    - `dim_customer`
-    - `dim_product`
-    - `fact_sales`
+—  
+*Sarah*
 
-**2. Ensure data integrity:**
-  - Deduplicate and clean as needed.
-  - Enforce foreign keys using `Customer_ID` and `Product_ID` as natural keys.
 
-**3. Prepare the following monthly aggregated KPIs:**
-  - ✅ Total revenue by region
-  - ✅ Total quantity sold per product category
-  - ✅ Average transaction amount per customer
-  - ✅ Top 10 products by revenue and by volume
-  - ✅ Daily sales patterns (weekdays vs weekends, seasonality)
 
-**4. Support business questions such as:**
-  - What are our top performing regions and categories by revenue in 2024 and 2025?
-  - Who are our top 50 revenue-generating customers?
-  - Which product lines have the strongest YoY growth?
-  - Are there noticeable trends or drops in specific months or quarters?
----
-
-This data will be visualized in our Power BI dashboards and presented during the upcoming strategic planning session. Please structure the pipeline in a way that can be reused and scheduled via Airflow.
-
-Let me know if you need anything else.
-
-Thanks in advance,  
-Sarah
 
