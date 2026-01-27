@@ -1,124 +1,85 @@
-# Data Engineering & AI Solutions
-Repository containing projects and summaries of my studies in the field of Data Engineering.
+# 🚀 Data Engineering & AI Solutions
+> "Data without governance is just noise; engineering without purpose is just cost."
 
-**Update**: Hello, everyone following this main project of mine! I am bringing a title name update and soon I will start to publish my AI solutions projects here. Thank you all who are starring my repository and forking it. I hope my projects may continue inspiring many others to keeping developing and studying in our Data field. **Best regards, Shamslux**!
+Welcome! I am **João**, a Data Engineer dedicated to transforming raw data into strategic assets. This repository tracks my journey through Big Data architecture, ETL/ELT optimization, and the emerging world of AI solutions. I still have a long way. I am curious and I am always seeking a way to improve myself. For that, I try reading books, creating personal projects, tutoring myself using apps, courses or AI. 
 
-# Table of Contents
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jo%C3%A3o-paulo-m%C3%BCller-31a44a97/)
+[![Goodreads](https://img.shields.io/badge/Goodreads-372213?style=for-the-badge&logo=goodreads&logoColor=white)](https://www.goodreads.com/user/show/50697219-jo-o-paulo-m-ller-mamede)
 
-- [Big Data Courses and Projects](#big-data-courses-and-projects)
-  - [ANAC Data Engineering Project](#anac-data-engineering-project) <img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="15" height="15"><br>
-  - [Hive and Impala Course](#hive-and-impala-course-with-fernando-amaral) <img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="15" height="15"><br>
-  - [Apache Airflow Course](#apache-airflow-course-with-marc-lamberti) <img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="15" height="15"><br>
-  - [Data Engineering Course by XPE](#data-engineering-course-by-xpe) <img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="15" height="15"><br>
-  - [GitHub Certification Course by DIO](#github-certification-course-by-dio) <img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="15" height="15"><br>
-  
-- [ETL/ELT Tools](#etlelt-tools)
-  - [Apache Hop](#apache-hop) <img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="15" height="15"><br>
-  - [dbt](#dbt) <img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="15" height="15"><br>
-- [SQL](#sql)
-  - [SQL Review Course with ChatGPT](#sql-review-course-with-chatgpt) <img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="15" height="15"><br>
-- [Books](#books)
-  - [Fundamentals of Data Engineering by Joe Reis and Matt Housley](#fundamentals-of-data-engineering-by-joe-reis-and-matt-housley) <img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="15" height="15"><br>
+P.S.: Another way to visualize some of my projects is clicking on my portfolio website. For Data projects, please, click [here](https://shamslux.github.io/ShamsluxTechVault/data-projects-eng.html)
 
-## Big Data Courses and Projects
+---
 
-### ANAC Data Engineering Project
-![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
-![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=Apache%20Airflow&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626.svg?&style=for-the-badge&logo=Jupyter&logoColor=white)
-![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
-![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
-![Spark](https://img.shields.io/badge/Apache_Spark-FFFFFF?style=for-the-badge&logo=apachespark&logoColor=#E35A16)
-![PBI](https://img.shields.io/badge/PowerBI-F2C811?style=for-the-badge&logo=Power%20BI&logoColor=white)
-![GPT](https://img.shields.io/badge/ChatGPT%204o-000000?style=for-the-badge&logo=openai&logoColor=white&label=)
-<img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="30" height="30"><br>
+## 🏆 Featured Projects & Completed Courses
+*These projects represent completed milestones in my technical career.*
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [ANAC Project Description Link](ANAC-data-engineering-project/ANAC-data-engineering-project.md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/3277/3277524.png" alt="scripts" width="25" height="25"> [ANAC Project Files General Link](ANAC-data-engineering-project)
+### ✈️ ANAC Data Engineering Project
+**Description:** End-to-end pipeline processing Brazilian Civil Aviation data, focused on scalability and analytical readiness.
+- **Stack:** ![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white) ![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=flat-square&logo=Apache%20Airflow&logoColor=white) ![Spark](https://img.shields.io/badge/Spark-E35A16?style=flat-square&logo=apachespark&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=flat-square&logo=docker&logoColor=white) ![PBI](https://img.shields.io/badge/PowerBI-F2C811?style=flat-square&logo=Power%20BI&logoColor=white)
+- [📂 Project Documentation](ANAC-data-engineering-project/ANAC-data-engineering-project.md) | [💻 Source Files](ANAC-data-engineering-project)
 
-### Hive and Impala Course with Fernando Amaral
-![RedHat](https://img.shields.io/badge/Red%20Hat-EE0000?style=for-the-badge&logo=redhat&logoColor=white)
-![Cloudera](https://img.shields.io/badge/Cloudera-0000FF?style=for-the-badge&logo=cloudera&logoColor=white)
-![Apache](https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=Apache&logoColor=white)
-[![Hive](https://img.shields.io/badge/-Hive-orange?logo=apache%20hive&style=for-the-badge&logoColor=white)](https://hive.apache.org/)
-[![Impala](https://img.shields.io/badge/-Impala-black?logo=apache&style=for-the-badge)](https://impala.apache.org/)
-![SQOOP](https://img.shields.io/badge/Apache_SQOOP-00C300?logo=apache&logoColor=white&style=for-the-badge)
-<img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="30" height="30"><br>
+### 🎒 dbt Pokémon Project
+**Description:** Implementation of ELT patterns using the Modern Data Stack to model and test complex data relationships.
+- **Stack:** ![dbt](https://img.shields.io/badge/dbt-FF694B?style=flat-square&logo=dbt&logoColor=white) ![DuckDB](https://img.shields.io/badge/DuckDB-000000?style=flat-square&logo=Duckdb&logoColor=yellow) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+- [📂 Project Documentation](dbt-pokemon-project/pokemon-dbt-testing-project.md) | [💻 SQL Models](dbt-pokemon-project/dbt_pkmn/models)
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [Hive and Impala Course Description Link](Hive_Impala/Hive%20and%20Impala.md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/3277/3277524.png" alt="scripts" width="25" height="25"> [Hive and Impala Scripts Link](Hive_Impala/Scripts)
+### 🐘 Hive and Impala (Fernando Amaral)
+**Description:** Deep dive into Hadoop ecosystem querying and Big Data warehousing.
+- **Stack:** ![Cloudera](https://img.shields.io/badge/Cloudera-0000FF?style=flat-square&logo=cloudera&logoColor=white) ![Hive](https://img.shields.io/badge/Hive-orange?style=flat-square&logo=apache%20hive&logoColor=white) ![Impala](https://img.shields.io/badge/Impala-333333?style=flat-square&logo=apache&logoColor=white) ![Sqoop](https://img.shields.io/badge/Sqoop-00C300?style=flat-square&logo=apache&logoColor=white)
+- [📂 Course Summary](Hive_Impala/Hive%20and%20Impala.md) | [💻 Scripts](Hive_Impala/Scripts)
 
-### Apache Airflow Course with Marc Lamberti
-![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=Apache%20Airflow&logoColor=white)
-<img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="30" height="30"><br>
+### 🐙 GitHub Certification (DIO)
+**Description:** Advanced version control workflows and repository management.
+- **Stack:** ![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05033?style=flat-square&logo=git&logoColor=white)
+- [📂 View Certification Details](DIO-GitHub-Certification-Formation/DIO-GitHub-Certification-Formation.md)
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [Apache Airflow Course Description Link](Apache_Airflow_Marc_Lamberti/The%20Complete%20Hands-On%20Introduction%20to%20Apache%20Airflow.md)<br>
+---
 
-### Data Engineering Course by XPE
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=Apache%20Airflow&logoColor=white)
-<img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="30" height="30"><br>
+## 🤖 AI & On-Device Innovation (Next Steps)
+*Current focus on leveraging SLMs (Small Language Models) for offline productivity.*
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [Data Engineering Course by XPE](Data_Engineering_Course_XPE/Data%20Engineering%20Course%20XPE.md)
+- **[Polyglot Coder]:** Offline Python Coding Assistant & Language Tutor for mobile.
+  - **Focus:** `Quantization` `Llama.cpp` `Poco F5 (8GB) Optimization`
+  - **Status:** 🚧 *Design & Architecture Phase*
 
-### GitHub Certification Course by DIO
-![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
-<img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="30" height="30"><br>
+---
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [GitHub Certification Course by DIO link](DIO-GitHub-Certification-Formation/DIO-GitHub-Certification-Formation.md)<br>
+## 📂 Laboratory & Continued Studies
+*Ongoing courses and book summaries. All projects below are currently marked as **Work in Progress (WIP)**.*
 
-## ETL/ELT Tools
+<details>
+<summary><b>📚 Book Summaries & Reading List</b></summary>
 
-### Apache Hop
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![ApacheHOP](https://img.shields.io/badge/HOP-ffffff?style=for-the-badge&logo=apache&logoColor=blue)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![JSON](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
-![EXCEL](https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
-<img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="30" height="30"><br>
+#### Fundamentals of Data Engineering (Joe Reis & Matt Housley)
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [Apache Hop Project Description](ApacheHopProject/Apache%20Hop%20Project%20Description.md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png" alt="sql scripts" width="25" height="25"> [Apache Hop Project SQL Scripts](ApacheHopProject/scripts_sql)<br>
-<img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/python_vertical_logo_icon_168039.png" alt="py scripts" width="25" height="25"> [Apache Hop Project Python Scripts](ApacheHopProject/scripts_py)<br>
+*For Portuguese speakers, I have created a Notion page with AI generated questions for each chapter of the book. It is a work in progress reading, so as I finish more chapters, I will add more questions!*
+- [Check the Questions Here!](https://www.notion.so/Fundamentos-da-Engenharia-de-Dados-Joe-Reis-Exerc-cios-28a61860068180e894c0e47a2bfb23fd?source=copy_link)
+- [🇬🇧 English Summary](Books/FundamentalsOfDataEngineering/Fundamentals%20of%20Data%20Engineering%20-%20%20Joe%20Reis%20&%20Matt%20Housley%20(ENG).md)
+- [🇧🇷 Portuguese Version](Books/FundamentalsOfDataEngineering/Fundamentals%20of%20Data%20Engineering%20-%20%20Joe%20Reis%20%26%20Matt%20Housley%20%20(PT-BR).md)
+</details>
 
-### dbt
-![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white)
-![duckdb](https://img.shields.io/badge/Duckdb-000000?style=for-the-badge&logo=Duckdb&logoColor=yellow)
-![python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
-![chatgpt](https://img.shields.io/badge/ChatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white)
-![vscode](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
-<img src="https://cdn-icons-png.flaticon.com/512/7072/7072946.png" alt="done" width="30" height="30"><br>
+<details>
+<summary><b>🛠️ ETL/ELT & SQL Mastery (WIP)</b></summary>
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [dbt Project Description](dbt-pokemon-project/pokemon-dbt-testing-project.md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png" alt="sql scripts" width="25" height="25"> [SQL Scripts](dbt-pokemon-project/dbt_pkmn/models)<br>
-<img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/python_vertical_logo_icon_168039.png" alt="py scripts" width="25" height="25"> [Python Scripts (DuckDB)](dbt-pokemon-project/dbt_pkmn/duckdb_config)<br>
+- **Apache Airflow Course** (Marc Lamberti)
+  - ![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=flat-square&logo=Apache%20Airflow&logoColor=white)
+  - [View Documentation](Apache_Airflow_Marc_Lamberti/The%20Complete%20Hands-On%20Introduction%20to%20Apache%20Airflow.md)
+- **Apache Hop Project**
+  - ![Hop](https://img.shields.io/badge/HOP-ffffff?style=flat-square&logo=apache&logoColor=blue) ![Postgres](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+  - [View Description](ApacheHopProject/Apache%20Hop%20Project%20Description.md)
+</details>
 
-## SQL
+<details>
+<summary><b>🎓 Academic & Long-term Courses (WIP)</b></summary>
 
-### SQL Review Course with ChatGPT
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![ChatGPT](https://img.shields.io/badge/chatgpt-343434?style=for-the-badge&logo=openai&logoColor=white) 
-<img src="https://cdn-icons-png.flaticon.com/512/5307/5307571.png" alt="wip" width="30" height="30"><br>
+- **Data Engineering Course by XPE**
 
-<img src="https://cdn-icons-png.flaticon.com/512/4136/4136043.png" alt="document" width="25" height="25"> [Description](SQLReviewCoursewithChatGPT/SQL%20Review%20Course%20with%20ChatGPT.md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png" alt="sql scripts" width="25" height="25"> [SQL Scripts](SQLReviewCoursewithChatGPT/SQL%20Scripts)<br>
+*That was an academic online course I did for improving my skills in 2022. Although I had completed the course, I am still trying to summarize it for my Github. As I get time, I will keep updating it and translating it from Portuguese to English.*
+  - ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=flat-square&logo=Apache%20Airflow&logoColor=white)
+  - [Course Page](Data_Engineering_Course_XPE/Data%20Engineering%20Course%20XPE.md)
+</details>
 
-## Books
-<a href="https://www.goodreads.com/user/show/50697219-jo-o-paulo-m-ller-mamede">
-    <img src="https://img.shields.io/badge/Goodreads-372213?style=for-the-badge&logo=goodreads&logoColor=white" alt="Goodreads Badge"/>
-  </a>
-
-### Fundamentals of Data Engineering by Joe Reis and Matt Housley
-
-<img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="english summary" width="25" height="25"> [English Summary](Books/FundamentalsOfDataEngineering/Fundamentals%20of%20Data%20Engineering%20-%20%20Joe%20Reis%20&%20Matt%20Housley%20(ENG).md)<br>
-<img src="https://cdn-icons-png.flaticon.com/512/3909/3909370.png" alt="portuguese summary" width="25" height="25"> [Portuguese Summary (Machine Translation)](Books/FundamentalsOfDataEngineering/Fundamentals%20of%20Data%20Engineering%20-%20%20Joe%20Reis%20%26%20Matt%20Housley%20%20(PT-BR).md)<br>
-
-
-
-
-
-
+---
 
 
 
