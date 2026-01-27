@@ -6,6 +6,8 @@ Welcome! I am **João**, a Data Engineer dedicated to transforming raw data into
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jo%C3%A3o-paulo-m%C3%BCller-31a44a97/)
 [![Goodreads](https://img.shields.io/badge/Goodreads-372213?style=for-the-badge&logo=goodreads&logoColor=white)](https://www.goodreads.com/user/show/50697219-jo-o-paulo-m-ller-mamede)
 
+P.S.: Another way to visualize some of my projects is clicking on my portfolio website. For Data projects, please, click [here](https://shamslux.github.io/ShamsluxTechVault/data-projects-eng.html)
+
 ---
 
 ## 🏆 Featured Projects & Completed Courses
