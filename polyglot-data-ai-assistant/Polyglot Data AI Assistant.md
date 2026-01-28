@@ -12,7 +12,7 @@
 ---
 
 <details>
-<summary>🇧🇷 <b>Português (Versão Original)</b></summary>
+<summary>🇧🇷 <b>Português</b></summary>
 
 ## Visão Geral
 Este projeto demonstra a implementação de um assistente de IA **100% offline** em um dispositivo móvel. O objetivo é criar um tutor especializado em **Engenharia de Dados** e **Estudos Poliglotas**, otimizado para hardware restrito, garantindo privacidade e custo zero. 
@@ -214,3 +214,4 @@ Finally, I see AI as a way to confabulate my thoughts, having a robotic arbiter 
 </details>
 
 ---
+
