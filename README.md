@@ -33,17 +33,11 @@ P.S.: Another way to visualize some of my projects is clicking on my portfolio w
 - **Stack:** ![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05033?style=flat-square&logo=git&logoColor=white)
 - [📂 View Certification Details](DIO-GitHub-Certification-Formation/DIO-GitHub-Certification-Formation.md)
 
----
-
-## 🤖 AI & On-Device Innovation 
-
-*Current focus on leveraging SLMs (Small Language Models) for offline productivity.*
-
-* **[Polyglot Coder](https://github.com/Shamslux/Data-Engineering-AI-Solutions/blob/main/polyglot-data-ai-assistant/Polyglot%20Data%20AI%20Assistant.md):** Offline Python Coding Assistant & Language Tutor for mobile.
-* **Focus:** `Quantization` `GGUF Runtime` `Poco F5 (8GB) Optimization`
-* **Status:** ✅ *Prototype Validated (8.15 t/s on Snapdragon 7+ Gen 2)*
-
----
+### 🤖 Polyglot Data AI Assistant (Edge AI)
+**Description:** Implementation of a 100% offline AI assistant on a mobile device for Data Engineering tutoring and multilingual support. Optimized to run on resource-constrained hardware using advanced quantization techniques.
+- **Stack:** ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white) ![Hugging Face](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat-square&logo=huggingface&logoColor=black) ![Llama](https://img.shields.io/badge/Llama_3.2-0467DF?style=flat-square&logo=meta&logoColor=white) ![Qwen](https://img.shields.io/badge/Qwen_2.5-525CB0?style=flat-square&logo=alibabacloud&logoColor=white) ![LLM](https://img.shields.io/badge/Local_LLM-FFD700?style=flat-square&logo=ai&logoColor=black)
+- **Status:** ✅ Prototype Validated (8.15 t/s on Snapdragon 7+ Gen 2)
+- [📂 View Project Details](https://github.com/Shamslux/Data-Engineering-AI-Solutions/blob/main/polyglot-data-ai-assistant/Polyglot%20Data%20AI%20Assistant.md)
 
 ## 📂 Laboratory & Continued Studies
 *Ongoing courses and book summaries. All projects below are currently marked as **Work in Progress (WIP)**.*
