@@ -35,12 +35,13 @@ P.S.: Another way to visualize some of my projects is clicking on my portfolio w
 
 ---
 
-## 🤖 AI & On-Device Innovation (Next Steps)
+## 🤖 AI & On-Device Innovation 
+
 *Current focus on leveraging SLMs (Small Language Models) for offline productivity.*
 
-- **[Polyglot Coder]:** Offline Python Coding Assistant & Language Tutor for mobile.
-  - **Focus:** `Quantization` `Llama.cpp` `Poco F5 (8GB) Optimization`
-  - **Status:** 🚧 *Design & Architecture Phase*
+* **[Polyglot Coder](https://github.com/Shamslux/Data-Engineering-AI-Solutions/blob/main/polyglot-data-ai-assistant/Polyglot%20Data%20AI%20Assistant.md):** Offline Python Coding Assistant & Language Tutor for mobile.
+* **Focus:** `Quantization` `GGUF Runtime` `Poco F5 (8GB) Optimization`
+* **Status:** ✅ *Prototype Validated (8.15 t/s on Snapdragon 7+ Gen 2)*
 
 ---
 
