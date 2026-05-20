@@ -40,7 +40,7 @@
 # Project Overview
 
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/e87be0da-b897-420e-ad9a-65fc24d53bcf" alt="Badge" width="500">
+  <img src="https://github.com/user-attachments/assets/7bd3f92b-2fdd-41ac-bc81-5800edfa0af6" alt="PokéMart" width="1024">
 </div>
 
 This is a personal project I created to practice using dbt. In my company, we recently started using the tool, and I picked up some tips from coworkers 
