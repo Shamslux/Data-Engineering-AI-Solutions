@@ -69,15 +69,7 @@ P.S.: Another way to visualize some of my projects is clicking on my portfolio w
   - [View Description](ApacheHopProject/Apache%20Hop%20Project%20Description.md)
 </details>
 
-<details>
-<summary><b>🎓 Academic & Long-term Courses (WIP)</b></summary>
 
-- **Data Engineering Course by XPE**
-
-*That was an academic online course I did for improving my skills in 2022. Although I had completed the course, I am still trying to summarize it for my Github. As I get time, I will keep updating it and translating it from Portuguese to English.*
-  - ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Airflow](https://img.shields.io/badge/Airflow-017CEE?style=flat-square&logo=Apache%20Airflow&logoColor=white)
-  - [Course Page](Data_Engineering_Course_XPE/Data%20Engineering%20Course%20XPE.md)
-</details>
 
 ---
 
