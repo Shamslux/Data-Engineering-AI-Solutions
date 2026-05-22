@@ -14,6 +14,10 @@ strongly recommend them always as possible!).
 
 Okay, now `Shamslux` is quitting and let us learn with Gemini 3.1 Lite.
 
+**UPDATE**: So, while learning, I tried another simple `Spec.md` for YouTube transcriptions turned into human readable text!
+Here is the document for aiding others whilling to use the `Spec.md` for their own AI (you need to copy the transcription, as content,
+to paste it on the AI webchat interface, since the AI will not get the text for you!): [yt-transcription-readble/Spec.md](https://github.com/Shamslux/Data-Engineering-AI-Solutions/blob/main/AI-Teaching/SDD-Spec-Driven-Development/personal_tests/yt-transcription-readble/Spec.md)
+
 ---
 
 ### SDD Learning Roadmap: Development via Chat
